@@ -1,3 +1,4 @@
+#!/usr/bin/python
 '''
 Coursera:
 - Software Defined Networking (SDN) course
@@ -23,17 +24,22 @@ class CustomTopo(Topo):
         
         # Add your logic here ...
         self.fanout = fanout
+         
         coreSwitch = self.addSwitch('c1')
         # aggregation layer
+        agg = 0
+        edge = 0
         for i in range(1, fanout+1):
             aggSwitch = self.addSwitch("a%d" % i)
-            for j in range(1, fanout+1):
+            for j in range(i*agg + 1, i * fanout + 1):
                 edgeSwitch = self.addSwitch("e%d" % j)
-                for k in range(1, 2*fanout+1):
+                for k in range(edge +j, edge + j + fanout):
                     host = self.addHost("h%d" % k)
                     self.addLink(host, edgeSwitch)
                 self.addLink(edgeSwitch, aggSwitch)
+                edge += 1
             self.addLink(aggSwitch, coreSwitch)
+            agg += 1
             
                     
         
