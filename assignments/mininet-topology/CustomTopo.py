@@ -32,9 +32,9 @@ class CustomTopo(Topo):
         edge = 0
         for i in range(1, fanout+1):
             aggSwitch = self.addSwitch("a%d" % i)
-            for j in range(i*agg + 1, i * fanout + 1):
+            for j in range(agg*fanout + 1, agg * fanout + 1 + fanout):
                 edgeSwitch = self.addSwitch("e%d" % j)
-                for k in range(edge +j, edge + j + fanout):
+                for k in range(edge * fanout + 1, edge * fanout + fanout +1):
                     host = self.addHost("h%d" % k)
                     self.addLink(host, edgeSwitch, bw=linkopts3['bw'], delay=linkopts3['delay'])
                 self.addLink(edgeSwitch, aggSwitch, bw=linkopts2['bw'], delay=linkopts2['delay'])
@@ -53,7 +53,7 @@ def simpleTest():
    agglink = dict(bw=100, delay='20ms')
    edgelink = dict(bw=10, delay='50ms')
    
-   topo = CustomTopo(linkopts1=corelink, linkopts2=agglink, linkopts3=edgelink, fanout=2)
+   topo = CustomTopo(linkopts1=corelink, linkopts2=agglink, linkopts3=edgelink, fanout=3)
    net = Mininet(topo=topo, link=TCLink)
    net.start()
    print "Dumping host connections"
