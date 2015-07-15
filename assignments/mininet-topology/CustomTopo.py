@@ -12,6 +12,7 @@ from mininet.topo import Topo
 from mininet.net import Mininet
 from mininet.util import irange,dumpNodeConnections
 from mininet.log import setLogLevel
+from mininet.link import TCLink
 
 class CustomTopo(Topo):
     "Simple Data Center Topology"
@@ -35,10 +36,10 @@ class CustomTopo(Topo):
                 edgeSwitch = self.addSwitch("e%d" % j)
                 for k in range(edge +j, edge + j + fanout):
                     host = self.addHost("h%d" % k)
-                    self.addLink(host, edgeSwitch)
-                self.addLink(edgeSwitch, aggSwitch)
+                    self.addLink(host, edgeSwitch, bw=linkopts3['bw'], delay=linkopts3['delay'])
+                self.addLink(edgeSwitch, aggSwitch, bw=linkopts2['bw'], delay=linkopts2['delay'])
                 edge += 1
-            self.addLink(aggSwitch, coreSwitch)
+            self.addLink(aggSwitch, coreSwitch, bw=linkopts1['bw'], delay=linkopts1['delay'])
             agg += 1
             
                     
@@ -53,7 +54,7 @@ def simpleTest():
    edgelink = dict(bw=10, delay='50ms')
    
    topo = CustomTopo(linkopts1=corelink, linkopts2=agglink, linkopts3=edgelink, fanout=2)
-   net = Mininet(topo)
+   net = Mininet(topo=topo, link=TCLink)
    net.start()
    print "Dumping host connections"
    dumpNodeConnections(net.hosts)
