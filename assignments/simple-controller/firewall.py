@@ -15,14 +15,14 @@ from pox.lib.addresses import EthAddr
 from collections import namedtuple
 import os
 ''' Add your imports here ... '''
-
+# TODO determine any required imports (readline?)
 
 
 log = core.getLogger()
 policyFile = "%s/pox/pox/misc/firewall-policies.csv" % os.environ[ 'HOME' ]
 
 ''' Add your global variables here ... '''
-
+# TODO read firewall rules into hash?
 
 
 class Firewall (EventMixin):
@@ -33,7 +33,7 @@ class Firewall (EventMixin):
 
     def _handle_ConnectionUp (self, event):
         ''' Add your logic here ... '''
-
+        # TODO on connection, load firewall rules to drop packets into switch
 
 
         log.debug("Firewall rules installed on %s", dpidToStr(event.dpid))
