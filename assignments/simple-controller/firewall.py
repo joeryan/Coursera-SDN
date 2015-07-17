@@ -15,7 +15,7 @@ from pox.lib.addresses import EthAddr
 from collections import namedtuple
 import os
 ''' Add your imports here ... '''
-# TODO determine any required imports (readline?)
+# TODO determine any required imports (readline for reading FW rules?)
 
 
 log = core.getLogger()
